@@ -1,6 +1,7 @@
 from pathlib import Path
-from sqlmodel import SQLModel, create_engine
-
+from sqlmodel import SQLModel, create_engine, Session
+from fastapi import Depends
+from typing import Annotated
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -16,3 +17,9 @@ engine = create_engine(
 
 def create_tables() -> None:
     SQLModel.metadata.create_all(engine)
+
+def get_session():
+    with Session(engine) as session:
+        yield session
+
+SessionDep = Annotated[Session, Depends(get_session)]

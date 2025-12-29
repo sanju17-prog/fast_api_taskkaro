@@ -1,0 +1,1 @@
+new minimal project in the process of learning fastAPI
